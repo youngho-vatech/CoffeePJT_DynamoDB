@@ -1,0 +1,122 @@
+org: kimyoungho
+app: minipjt
+service: test
+provider:
+      name: aws
+      runtime: nodejs12.x
+      iamRoleStatements:
+              - Effect: Allow
+                Action:
+                  - dynamodb:DescribeTable
+                  - dynamodb:Query
+                  - dynamodb:Scan
+                  - dynamodb:GetItem
+                  - dynamodb:PutItem
+                  - dynamodb:UpdateItem
+                  - dynamodb:DeleteItem
+                Resource:
+                   Fn::Join:
+                     - ""
+                     - - "arn:aws:dynamodb:*:*:table/"
+                       - Ref: ProductGqlDynamoDbTable
+                       - Ref: UserGqlDynamoDbTable
+                       - Ref: OrderGqlDynamoDbTable
+                       - Ref: TaskGqlDynamoDbTable
+
+functions:
+      queryProducts:
+        handler: handler/handler.queryProducts
+        events:
+        - http:
+            path: products
+            method: post
+            cors: true
+        environment:
+          TABLE_NAME: products
+      queryUsers:
+        handler: handler/handler2.queryUsers
+        events:
+        - http:
+            path: users
+            method: post
+            cors: true
+        environment:
+          TABLE_NAME: users
+      queryOrders:
+        handler: handler/orderhandler.queryOrders
+        events:
+        - http:
+            path: orders
+            method: post
+            cors: true
+        environment:
+          TABLE_NAME: orders
+      queryTasks:
+        handler: handler/taskhandler.queryTasks
+        events:
+        - http:
+            path: tasks
+            method: post
+            cors: true
+        environment:
+          TABLE_NAME: tasks
+       
+          
+
+resources:
+      Resources:
+        ProductGqlDynamoDbTable:
+          Type: AWS::DynamoDB::Table
+          Properties:
+            TableName: products
+            AttributeDefinitions:
+              - AttributeName: id
+                AttributeType: S
+            KeySchema:
+              - AttributeName: id
+                KeyType: HASH
+            ProvisionedThroughput:
+              ReadCapacityUnits: 1
+              WriteCapacityUnits: 1
+        UserGqlDynamoDbTable:
+          Type: AWS::DynamoDB::Table
+          Properties:
+            TableName: users
+            AttributeDefinitions:
+              - AttributeName: id
+                AttributeType: S
+            KeySchema:
+              - AttributeName: id
+                KeyType: HASH
+            ProvisionedThroughput:
+              ReadCapacityUnits: 1
+              WriteCapacityUnits: 1
+        OrderGqlDynamoDbTable:
+          Type: AWS::DynamoDB::Table
+          Properties:
+            TableName: orders
+            AttributeDefinitions:
+              - AttributeName: id
+                AttributeType: S
+            KeySchema:
+              - AttributeName: id
+                KeyType: HASH
+            ProvisionedThroughput:
+              ReadCapacityUnits: 1
+              WriteCapacityUnits: 1
+        TaskGqlDynamoDbTable:
+          Type: AWS::DynamoDB::Table
+          Properties:
+            TableName: tasks
+            AttributeDefinitions:
+              - AttributeName: id
+                AttributeType: S
+            KeySchema:
+              - AttributeName: id
+                KeyType: HASH
+            ProvisionedThroughput:
+              ReadCapacityUnits: 1
+              WriteCapacityUnits: 1
+       
+plugins:
+  - serverless-offline
