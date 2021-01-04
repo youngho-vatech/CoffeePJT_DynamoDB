@@ -13,6 +13,7 @@
     const viewOrder = require('../resolvers/order/view');
     const listOrder = require('../resolvers/order/list');
     const removeOrder = require('../resolvers/order/remove');
+    const updateOrder = require('../resolvers/order/update');
 
     const orderType = new GraphQLObjectType({
         name: 'Order',
@@ -55,6 +56,15 @@
                     },
                     type: orderType,
                     resolve: (parent, args) => addOrder(args)
+                },
+                updateOrder:{
+                    args: {
+                        id: { type: new GraphQLNonNull(GraphQLString) },
+                        menu: { type: new GraphQLNonNull(GraphQLString) },
+                        hi: { type: new GraphQLNonNull(GraphQLString) },
+                    },
+                type: orderType,
+                resolve: (parent, args) => updateOrder(args, args.id)
                 },
                 removeOrder: {
                     args: {

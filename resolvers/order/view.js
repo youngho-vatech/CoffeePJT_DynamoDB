@@ -8,6 +8,8 @@ module.exports = (id) => {
         TableName: process.env.TABLE_NAME,
         Key: { id }
     };
-    return dynamoDb.get(params).promise()
-        .then(r => r.Item);
+    const result = dynamoDb.get(params).promise()
+    .then(r => r.Item)
+    console.log(result)
+    return result;
 };
