@@ -8,14 +8,13 @@ module.exports = (data) => {
     const params = {
         TableName: process.env.TABLE_NAME,
         Item: {
-            name: data.name,
-            quantity: data.quantity,
+            creater: data.creater,
+            title: data.title,
+            status: data.status,
             id: uuid.v1(),
-            addedAt: Date.now(),
+            createdAt: Date.now(),
         }
     };
-    console.log(params.TableName)
-    params.Item.quantity += 3
     return dynamoDb.put(params).promise()
         .then(result => params.Item)
 };

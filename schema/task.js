@@ -18,9 +18,10 @@
         name: 'Task',
         fields: {
             id: { type: new GraphQLNonNull(GraphQLString) },
-            name: { type: new GraphQLNonNull(GraphQLString) },
-            quantity: { type: new GraphQLNonNull(GraphQLInt) },
-            addedAt: { type: new GraphQLNonNull(GraphQLString) },
+            creater: { type: new GraphQLNonNull(GraphQLString) },
+            title: { type: new GraphQLNonNull(GraphQLString) },
+            status: { type: new GraphQLNonNull(GraphQLString) },
+            createdAt: { type: new GraphQLNonNull(GraphQLString) },
         }
     });
 
@@ -30,8 +31,8 @@
             name: 'Query',
             fields: {
                 listTasks: {
-                    type: new GraphQLList(userType),
-                    resolve: (parent, args) => listUser()
+                    type: new GraphQLList(taskType),
+                    resolve: (parent, args) => listTask()
                 },
                 viewTasks: {
                     args: {
@@ -48,8 +49,9 @@
             fields: {
                 createTask: {
                     args: {
-                        name: { type: new GraphQLNonNull(GraphQLString) },
-                        quantity: { type: new GraphQLNonNull(GraphQLInt) }
+                        creater: { type: new GraphQLNonNull(GraphQLString) },
+                        title: { type: new GraphQLNonNull(GraphQLString) },
+                        status: { type: new GraphQLNonNull(GraphQLString) }
                     },
                     type: taskType,
                     resolve: (parent, args) => addTask(args)

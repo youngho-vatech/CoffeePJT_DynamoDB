@@ -8,5 +8,5 @@ module.exports = (id) => {
         TableName: process.env.TABLE_NAME,
         Key: { id }
     };
-    return dynamoDb.delete(params).promise()
+    return dynamoDb.delete(params).promise().then(result => true)
 };
