@@ -1,7 +1,7 @@
 'use strict';
 
     const { graphql } = require('graphql');
-    const schema = require('../schema/schema2');
+    const schema = require('../schema/user');
     
     module.exports.queryUsers = (event, context, callback) => {
         graphql(schema, event.body)

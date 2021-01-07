@@ -20,9 +20,7 @@
         fields: {
             id: { type: new GraphQLNonNull(GraphQLString) },
             creater: { type: new GraphQLNonNull(GraphQLString) },
-            title: { type: new GraphQLNonNull(GraphQLString) },
-            status: { type: new GraphQLNonNull(GraphQLString) },
-            createdAt: { type: new GraphQLNonNull(GraphQLString) },
+            title: { type: new GraphQLNonNull(GraphQLString) }
         }
     });
 
@@ -51,8 +49,7 @@
                 createTask: {
                     args: {
                         creater: { type: new GraphQLNonNull(GraphQLString) },
-                        title: { type: new GraphQLNonNull(GraphQLString) },
-                        status: { type: new GraphQLNonNull(GraphQLString) }
+                        title: { type: new GraphQLNonNull(GraphQLString) }
                     },
                     type: taskType,
                     resolve: (parent, args) => addTask(args)

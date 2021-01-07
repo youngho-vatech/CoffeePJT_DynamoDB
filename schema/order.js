@@ -41,7 +41,8 @@
                     },
                     type: orderType,
                     resolve: (parent, args) => viewOrder(args.id)
-                }
+                },
+                
             }
         }),
 

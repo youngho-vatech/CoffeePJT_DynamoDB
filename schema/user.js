@@ -7,20 +7,21 @@
         GraphQLInt,
         GraphQLList,
         GraphQLNonNull,
-        GraphQLBoolean
+        GraphQLBoolean,
+        graphqlSync
     } = require('graphql');
     const addUser = require('../resolvers/user/create');
     const viewUser = require('../resolvers/user/view');
     const listUser = require('../resolvers/user/list');
     const removeUser = require('../resolvers/user/remove');
-
+    const user = require('../resolvers/user/user');
     const userType = new GraphQLObjectType({
         name: 'User',
         fields: {
             id: { type: new GraphQLNonNull(GraphQLString) },
-            name: { type: new GraphQLNonNull(GraphQLString) },
-            quantity: { type: new GraphQLNonNull(GraphQLInt) },
-            addedAt: { type: new GraphQLNonNull(GraphQLString) },
+            username: { type: new GraphQLNonNull(GraphQLString) },
+            status: { type: new GraphQLNonNull(GraphQLString) },
+            position: { type: new GraphQLNonNull(GraphQLString) },
         }
     });
 
@@ -39,6 +40,11 @@
                     },
                     type: userType,
                     resolve: (parent, args) => viewUser(args.id)
+                },
+                finduser:{
+                    
+                    type:new GraphQLList(userType),
+                    resolve:(parent, args) => user()
                 }
             }
         }),
@@ -48,8 +54,9 @@
             fields: {
                 createUser: {
                     args: {
-                        name: { type: new GraphQLNonNull(GraphQLString) },
-                        quantity: { type: new GraphQLNonNull(GraphQLInt) }
+                        username: { type: new GraphQLNonNull(GraphQLString) },
+                        status: { type: new GraphQLNonNull(GraphQLString) },
+                        position: { type: new GraphQLNonNull(GraphQLString) }
                     },
                     type: userType,
                     resolve: (parent, args) => addUser(args)

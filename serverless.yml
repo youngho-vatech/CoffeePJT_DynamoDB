@@ -34,7 +34,7 @@ functions:
         environment:
           TABLE_NAME: products
       queryUsers:
-        handler: handler/handler2.queryUsers
+        handler: handler/userhandler.queryUsers
         events:
         - http:
             path: users
