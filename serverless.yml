@@ -1,5 +1,4 @@
-org: kimyoungho
-app: minipjt
+
 service: test
 provider:
       name: aws
@@ -18,21 +17,11 @@ provider:
                    Fn::Join:
                      - ""
                      - - "arn:aws:dynamodb:*:*:table/"
-                       - Ref: ProductGqlDynamoDbTable
                        - Ref: UserGqlDynamoDbTable
                        - Ref: OrderGqlDynamoDbTable
                        - Ref: TaskGqlDynamoDbTable
 
 functions:
-      queryProducts:
-        handler: handler/handler.queryProducts
-        events:
-        - http:
-            path: products
-            method: post
-            cors: true
-        environment:
-          TABLE_NAME: products
       queryUsers:
         handler: handler/userhandler.queryUsers
         events:
@@ -65,19 +54,6 @@ functions:
 
 resources:
       Resources:
-        ProductGqlDynamoDbTable:
-          Type: AWS::DynamoDB::Table
-          Properties:
-            TableName: products
-            AttributeDefinitions:
-              - AttributeName: id
-                AttributeType: S
-            KeySchema:
-              - AttributeName: id
-                KeyType: HASH
-            ProvisionedThroughput:
-              ReadCapacityUnits: 1
-              WriteCapacityUnits: 1
         UserGqlDynamoDbTable:
           Type: AWS::DynamoDB::Table
           Properties:
