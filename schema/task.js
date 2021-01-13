@@ -13,7 +13,7 @@
     const viewTask = require('../resolvers/task/view');
     const tasks = require('../resolvers/task/tasks');
     const removeTask = require('../resolvers/task/removeTask');
-    const updateTask = require('../resolvers/task/update');
+    const updateTask = require('../resolvers/task/updateTask');
 
     const taskType = new GraphQLObjectType({
         name: 'Task',
@@ -58,11 +58,12 @@
                 },
                 updateTask: {
                     args: {
-                        id: { type: new GraphQLNonNull(GraphQLString) },
+                        _id: { type: new GraphQLNonNull(GraphQLString) },
+                        createdAt: { type: new GraphQLNonNull(GraphQLString) },
                         title: { type: new GraphQLNonNull(GraphQLString) },
                     },
                     type: taskType,
-                    resolve: (parent, args) => updateTask(args,args.id)
+                    resolve: (parent, args) => updateTask(args)
                 },
                 removeTask: {
                     args: {
