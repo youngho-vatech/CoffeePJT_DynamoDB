@@ -5,13 +5,13 @@ const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
 module.exports = () => dynamoDb.scan({ 
     TableName: process.env.TABLE_NAME,
-    FilterExpression: "#status = :status and #posit <> :posit",
+    FilterExpression: "#stat = :stat and #posit <> :posit",
     ExpressionAttributeNames: {
-        "#status": "status",
+        "#stat": "stat",
         "#posit": "posit"
     },
     ExpressionAttributeValues: {
-        ":status":"대기중",
+        ":stat":"대기중",
         ":posit": "휴가자"
     }  
 

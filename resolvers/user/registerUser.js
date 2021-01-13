@@ -9,7 +9,7 @@ module.exports = (data) => {
         TableName: process.env.TABLE_NAME,
         Item: {
             username: data.username,
-            status: "대기중",
+            stat: "대기중",
             posit: "주문자",
             id: uuid.v1(),
             createdAt: String(Date.now())

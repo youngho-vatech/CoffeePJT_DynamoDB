@@ -23,14 +23,16 @@
     const getbackUser = require('../resolvers/user/getbackUser')
     const getbackStatus = require('../resolvers/user/getbackStatus')
     const deleteUser = require('../resolvers/user/deleteUser');
+    const howmany = require('../resolvers/user/howmany');
 
     const userType = new GraphQLObjectType({
         name: 'User',
         fields: {
             id: { type: new GraphQLNonNull(GraphQLString) },
             username: { type: new GraphQLNonNull(GraphQLString) },
-            status: { type: new GraphQLNonNull(GraphQLString) },
+            stat: { type: new GraphQLNonNull(GraphQLString) },
             posit: { type: new GraphQLNonNull(GraphQLString) },
+            createdAt: { type: new GraphQLNonNull(GraphQLString) },
         }
     });
 
@@ -71,6 +73,10 @@
                 includedNothing:{
                     type: new GraphQLList(userType),
                     resolve: (parent, args) => includedNothing()
+                },
+                howmany:{
+                    type: new GraphQLList(GraphQLInt),
+                    resolve: (parent, args) => howmany()
                 }
             }
         }),

@@ -9,10 +9,10 @@
         GraphQLNonNull,
         GraphQLBoolean
     } = require('graphql');
-    const addTask = require('../resolvers/task/create');
+    const createTask = require('../resolvers/task/createTask');
     const viewTask = require('../resolvers/task/view');
-    const listTask = require('../resolvers/task/list');
-    const removeTask = require('../resolvers/task/remove');
+    const tasks = require('../resolvers/task/tasks');
+    const removeTask = require('../resolvers/task/removeTask');
     const updateTask = require('../resolvers/task/update');
 
     const taskType = new GraphQLObjectType({
@@ -20,7 +20,8 @@
         fields: {
             id: { type: new GraphQLNonNull(GraphQLString) },
             creater: { type: new GraphQLNonNull(GraphQLString) },
-            title: { type: new GraphQLNonNull(GraphQLString) }
+            title: { type: new GraphQLNonNull(GraphQLString) },
+            createdAt: { type: new GraphQLNonNull(GraphQLString) },
         }
     });
 
@@ -29,9 +30,9 @@
         query: new GraphQLObjectType({
             name: 'Query',
             fields: {
-                listTasks: {
+                tasks: {
                     type: new GraphQLList(taskType),
-                    resolve: (parent, args) => listTask()
+                    resolve: (parent, args) => tasks()
                 },
                 viewTasks: {
                     args: {
@@ -48,11 +49,12 @@
             fields: {
                 createTask: {
                     args: {
-                        creater: { type: new GraphQLNonNull(GraphQLString) },
+                        userid: { type: new GraphQLNonNull(GraphQLString) },
+                        createdAt: { type: new GraphQLNonNull(GraphQLString) },
                         title: { type: new GraphQLNonNull(GraphQLString) }
                     },
                     type: taskType,
-                    resolve: (parent, args) => addTask(args)
+                    resolve: (parent, args) => createTask(args)
                 },
                 updateTask: {
                     args: {
@@ -64,10 +66,13 @@
                 },
                 removeTask: {
                     args: {
-                        id: { type: new GraphQLNonNull(GraphQLString) }
+                        _id: { type: new GraphQLNonNull(GraphQLString) },
+                        createdAtT:{ type: new GraphQLNonNull(GraphQLString) },
+                        userid:{ type: new GraphQLNonNull(GraphQLString) },
+                        createdAtU:{ type: new GraphQLNonNull(GraphQLString) }
                     },
-                    type: GraphQLBoolean,
-                    resolve: (parent, args) => removeTask(args.id)
+                    type: GraphQLString,
+                    resolve: (parent, args) => removeTask(args)
                 },
             }
         })
