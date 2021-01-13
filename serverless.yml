@@ -1,5 +1,5 @@
 
-service: test
+service: test2
 provider:
       name: aws
       runtime: nodejs12.x
@@ -30,7 +30,7 @@ functions:
             method: post
             cors: true
         environment:
-          TABLE_NAME: users
+          TABLE_NAME: test00_users
       queryOrders:
         handler: handler/orderhandler.queryOrders
         events:
@@ -39,7 +39,8 @@ functions:
             method: post
             cors: true
         environment:
-          TABLE_NAME: orders
+          TABLE_NAME: test00_orders
+          SUB_TABLE_NAME : test00_users
       queryTasks:
         handler: handler/taskhandler.queryTasks
         events:
@@ -48,7 +49,7 @@ functions:
             method: post
             cors: true
         environment:
-          TABLE_NAME: tasks
+          TABLE_NAME: test00_tasks
        
           
 
@@ -57,33 +58,93 @@ resources:
         UserGqlDynamoDbTable:
           Type: AWS::DynamoDB::Table
           Properties:
-            TableName: users
+            TableName: test00_users
             AttributeDefinitions:
               - AttributeName: id
+                AttributeType: S
+              - AttributeName: createdAt
+                AttributeType: S
+              - AttributeName: status
+                AttributeType: S
+              - AttributeName: posit
+                AttributeType: S
+              - AttributeName: username
                 AttributeType: S
             KeySchema:
               - AttributeName: id
                 KeyType: HASH
+              - AttributeName: createdAt
+                KeyType: RANGE
             ProvisionedThroughput:
-              ReadCapacityUnits: 1
-              WriteCapacityUnits: 1
+              ReadCapacityUnits: 5
+              WriteCapacityUnits: 5
+            LocalSecondaryIndexes:
+              - IndexName: username_index
+                KeySchema:
+                - AttributeName: id
+                  KeyType: HASH
+                - AttributeName: username
+                  KeyType: RANGE
+              - IndexName: status_index
+                KeySchema:
+                - AttributeName: id
+                  KeyType: HASH
+                - AttributeName: status
+                  KeyType: RANGE
+              - IndexName: posit_index
+                KeySchema:
+                - AttributeName: id
+                  KeyType: HASH
+                - AttributeName: posit
+                  KeyType: RANGE  
+            ProjectionType: ALL
         OrderGqlDynamoDbTable:
           Type: AWS::DynamoDB::Table
           Properties:
-            TableName: orders
+            TableName: test00_orders
             AttributeDefinitions:
               - AttributeName: id
+                AttributeType: S
+              - AttributeName: createdAt
+                AttributeType: S
+              - AttributeName: username
+                AttributeType: S
+              - AttributeName: menu
+                AttributeType: S
+              - AttributeName: hi
                 AttributeType: S
             KeySchema:
               - AttributeName: id
                 KeyType: HASH
+              - AttributeName: createdAt
+                KeyType: RANGE
             ProvisionedThroughput:
-              ReadCapacityUnits: 1
-              WriteCapacityUnits: 1
+              ReadCapacityUnits: 5
+              WriteCapacityUnits: 5
+            LocalSecondaryIndexes:
+              - IndexName: username_index
+                KeySchema:
+                - AttributeName: id
+                  KeyType: HASH
+                - AttributeName: username
+                  KeyType: RANGE
+              - IndexName: menu_index
+                KeySchema:
+                - AttributeName: id
+                  KeyType: HASH
+                - AttributeName: menu
+                  KeyType: RANGE
+              - IndexName: hi_index
+                KeySchema:
+                - AttributeName: id
+                  KeyType: HASH
+                - AttributeName: hi
+                  KeyType: RANGE  
+            ProjectionType: ALL
         TaskGqlDynamoDbTable:
           Type: AWS::DynamoDB::Table
           Properties:
-            TableName: tasks
+            TableName: test00_tasks
             AttributeDefinitions:
               - AttributeName: id
                 AttributeType: S

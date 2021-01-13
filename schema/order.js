@@ -9,11 +9,16 @@
         GraphQLNonNull,
         GraphQLBoolean
     } = require('graphql');
-    const addOrder = require('../resolvers/order/create');
+    const createOrder = require('../resolvers/order/createOrder');
     const viewOrder = require('../resolvers/order/view');
-    const listOrder = require('../resolvers/order/list');
+    
     const removeOrder = require('../resolvers/order/remove');
     const updateOrder = require('../resolvers/order/update');
+
+
+    const orders = require('../resolvers/order/orders');
+    const orderMine = require('../resolvers/order/orderMine');
+
 
     const orderType = new GraphQLObjectType({
         name: 'Order',
@@ -31,9 +36,20 @@
         query: new GraphQLObjectType({
             name: 'Query',
             fields: {
-                listOrders: {
+                orders: {
+                    args:{
+                        hi:{ type: new GraphQLNonNull(GraphQLString) }
+                    },
                     type: new GraphQLList(orderType),
-                    resolve: (parent, args) => listOrder()
+                    resolve: (parent, args) => orders(args.hi)
+                },
+                orderMine:{
+                    args:{
+                        _id:{ type: new GraphQLNonNull(GraphQLString) },
+                        createdAt:{ type: new GraphQLNonNull(GraphQLString) }
+                    },
+                    type: new GraphQLList(orderType),
+                    resolve: (parent, args) => orderMine(args)
                 },
                 viewOrders: {
                     args: {
@@ -51,12 +67,13 @@
             fields: {
                 createOrder: {
                     args: {
+                        _id: { type: new GraphQLNonNull(GraphQLString) },
+                        createdAt:{ type: new GraphQLNonNull(GraphQLString) },
                         menu: { type: new GraphQLNonNull(GraphQLString) },
                         hi: { type: new GraphQLNonNull(GraphQLString) },
-                        username: { type: new GraphQLNonNull(GraphQLString) },
                     },
                     type: orderType,
-                    resolve: (parent, args) => addOrder(args)
+                    resolve: (parent, args) => createOrder(args)
                 },
                 updateOrder:{
                     args: {

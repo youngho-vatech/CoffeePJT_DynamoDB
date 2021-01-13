@@ -9,13 +9,12 @@ module.exports = (data) => {
         TableName: process.env.TABLE_NAME,
         Item: {
             username: data.username,
-            status: data.status,
-            position: data.position,
+            status: "대기중",
+            posit: "주문자",
             id: uuid.v1(),
-            addedAt: Date.now(),
+            createdAt: String(Date.now())
         }
     };
-    console.log(params.TableName)
     
     return dynamoDb.put(params).promise()
         .then(result => params.Item)

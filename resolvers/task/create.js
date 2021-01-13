@@ -12,7 +12,7 @@ module.exports = (data) => {
             title: data.title,
             status: data.status,
             id: uuid.v1(),
-            createdAt: Date.now(),
+            createdAt: String(Date.now()),
         }
     };
     return dynamoDb.put(params).promise()

@@ -3,11 +3,11 @@
 const AWS = require('aws-sdk');
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
-module.exports = (id) => {
+module.exports = (id, createdAt) => {
     const params = {
         TableName: process.env.TABLE_NAME,
-        Key: { id }
+        Key: { id , createdAt}
     };
-    return dynamoDb.get(params).promise()
-        .then(r => r.Item);
+    dynamoDb.delete(params).promise()
+    return "유저가 삭제 되었습니다."
 };
