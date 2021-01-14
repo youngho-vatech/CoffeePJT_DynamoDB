@@ -181,3 +181,6 @@ resources:
        
 plugins:
   - serverless-offline
+custom:
+  serverless-offline:
+    httpPort: 4000

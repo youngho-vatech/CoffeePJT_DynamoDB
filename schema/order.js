@@ -10,9 +10,6 @@ const {
     GraphQLBoolean
 } = require('graphql');
 const createOrder = require('../resolvers/order/createOrder');
-const viewOrder = require('../resolvers/order/view');
-
-
 const orders = require('../resolvers/order/orders');
 const orderMine = require('../resolvers/order/orderMine');
 const howmuch = require('../resolvers/order/howmuch');
