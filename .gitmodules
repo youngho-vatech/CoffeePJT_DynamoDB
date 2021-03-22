@@ -1,3 +1,0 @@
-[submodule "handler/model"]
-	path = handler/model
-	url = https://github.com/youngho-vatech/movieql-client.git
